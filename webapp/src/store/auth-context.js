@@ -7,6 +7,7 @@ const AuthContext = React.createContext({
   // dont need email, password in this app yet. But in a real world app we might need them.
 });
 
+//one central place for the auth state management
 export const AuthContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
