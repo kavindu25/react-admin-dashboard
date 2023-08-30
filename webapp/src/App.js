@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 
 import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
@@ -6,40 +6,45 @@ import MainHeader from "./components/MainHeader/MainHeader";
 import AuthContext from "./store/auth-context";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // removed as all the logic is moved to the dedicated custom authcontext provider component
+  // so that app.js is now not concerned about appwide state management but instead is concerned about the ui
 
-  useEffect(() => {
-    const userLoggedInInfo = localStorage.getItem("isLoggedIn");
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    if (userLoggedInInfo === "1") {
-      setIsLoggedIn(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userLoggedInInfo = localStorage.getItem("isLoggedIn");
 
-  const loginHandler = (email, password) => {
-    localStorage.setItem("isLoggedIn", "1");
-    setIsLoggedIn(true);
-  };
+  //   if (userLoggedInInfo === "1") {
+  //     setIsLoggedIn(true);
+  //   }
+  // }, []);
 
-  const logoutHandler = () => {
-    localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false);
-  };
+  // const loginHandler = (email, password) => {
+  //   localStorage.setItem("isLoggedIn", "1");
+  //   setIsLoggedIn(true);
+  // };
+
+  // const logoutHandler = () => {
+  //   localStorage.removeItem("isLoggedIn");
+  //   setIsLoggedIn(false);
+  // };
+
+  const ctx = useContext(AuthContext);
 
   return (
     <React.Fragment>
-      <AuthContext.Provider
+      {/* <AuthContext.Provider
         value={{
           isLoggedIn: isLoggedIn,
           onLogout: logoutHandler,
         }}
-      >
-        <MainHeader />
-        <main>
-          {!isLoggedIn && <Login onLogin={loginHandler} />}
-          {isLoggedIn && <Home onLogout={logoutHandler} />}
-        </main>
-      </AuthContext.Provider>
+      > */}
+      <MainHeader />
+      <main>
+        {!ctx.isLoggedIn && <Login />}
+        {ctx.isLoggedIn && <Home />}
+      </main>
+      {/* </AuthContext.Provider> */}
     </React.Fragment>
   );
 }
